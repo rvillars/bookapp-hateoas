@@ -31,12 +31,12 @@ interface AuthorRepository extends PagingAndSortingRepository<Author, Long> {}
 class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    String title;
+    private Long id
+    String title
     @Temporal(TemporalType.DATE)
-    Date releasedate;
+    Date releasedate
     @ManyToOne
-    Author author;
+    Author author
 }
 
 @Entity
@@ -47,5 +47,5 @@ class Author {
     String firstname
     String lastname
     @OneToMany(mappedBy = "author", cascade = [CascadeType.PERSIST, CascadeType.REMOVE])
-    Set<Book> books;
+    Set<Book> books
 }
