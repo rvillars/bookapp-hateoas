@@ -42,11 +42,24 @@ bookapp.controller('BookController', function ($scope, Book, Author) {
         $scope.books.splice(index, 1);
         Book.remove({bookId: id});
     };
+
+    $scope.openDatePicker = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+    };
 });
 
 bookapp.factory('Book', function ($resource) {
     return $resource('rest/books/:bookId', {bookId: '@id'}, {
-        'update': {method: 'PUT'}
+        'update': {method: 'PUT'},
+        'query': {
+            method: 'GET',
+            transformResponse: function(data) {
+                return JSON.parse(data)._embedded.books;
+            },
+            isArray: true
+        }
     });
 });
 

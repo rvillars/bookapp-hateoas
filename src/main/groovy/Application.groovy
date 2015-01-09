@@ -18,6 +18,9 @@ class Application extends RepositoryRestMvcConfiguration {
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.setBaseUri(new URI("/rest"))
+        config.exposeIdsFor(Book.class, Author.class);
+        config.setReturnBodyOnCreate(true)
+        config.setReturnBodyOnUpdate(true);
     }
 }
 
@@ -31,7 +34,7 @@ interface AuthorRepository extends PagingAndSortingRepository<Author, Long> {}
 class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id
+    Long id
     String title
     @Temporal(TemporalType.DATE)
     Date releasedate
@@ -43,7 +46,7 @@ class Book {
 class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id
+    Long id
     String firstname
     String lastname
     @OneToMany(mappedBy = "author", cascade = [CascadeType.PERSIST, CascadeType.REMOVE])

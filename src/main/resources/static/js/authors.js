@@ -39,16 +39,15 @@ bookapp.controller('AuthorController', function ($scope, Author) {
     };
 });
 
-// does not work
-bookapp.factory('Author', function (SpringDataRestAdapter, $http) {
-    $http.get('rest').success(function(response) {
-        var processedResponse = new SpringDataRestAdapter(response);
-        var resources = processedResponse._resources('authors/:authorId', {authorId: '@id'});
-        return resources;
+bookapp.factory('Author', function ($resource) {
+    return $resource('rest/authors/:authorId', {authorId: '@id'}, {
+        'update': {method: 'PUT'},
+        'query': {
+            method: 'GET',
+            transformResponse: function(data) {
+                return JSON.parse(data)._embedded.authors;
+            },
+            isArray: true
+        }
     });
 });
-
-//works
-//bookapp.factory('Author2', function ($resource) {
-//    return $resource('rest/authors/:authorId', {authorId: '@id'});
-//});
