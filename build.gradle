@@ -12,14 +12,18 @@ buildscript {
 
 apply plugin: 'groovy'
 apply plugin: 'spring-boot'
+apply plugin: 'war'
 
-jar {
+war {
     baseName = 'bookapp'
-    version =  '0.0.1-SNAPSHOT'
 }
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+    providedRuntime
 }
 
 dependencies {
@@ -28,4 +32,5 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("com.h2database:h2")
     compile("org.codehaus.groovy:groovy")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
